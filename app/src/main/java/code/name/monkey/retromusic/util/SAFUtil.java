@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -111,19 +111,19 @@ public class SAFUtil {
 
   public static void saveTreeUri(Context context, Intent data) {
     Uri uri = data.getData();
-    context
-        .getContentResolver()
-        .takePersistableUriPermission(
-            uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    PreferenceUtil.INSTANCE.setSafSdCardUri(uri.toString());
+    if (uri != null) {
+      context.getContentResolver().takePersistableUriPermission(
+              uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      PreferenceUtil.INSTANCE.setSafSdCardUri(uri.toString());
+    }
   }
 
-  public static boolean isTreeUriSaved(Context context) {
+  public static boolean isTreeUriSaved() {
     return !TextUtils.isEmpty(PreferenceUtil.INSTANCE.getSafSdCardUri());
   }
 
   public static boolean isSDCardAccessGranted(Context context) {
-    if (!isTreeUriSaved(context)) return false;
+    if (!isTreeUriSaved()) return false;
 
     String sdcardUri = PreferenceUtil.INSTANCE.getSafSdCardUri();
 
@@ -147,6 +147,10 @@ public class SAFUtil {
    */
   @Nullable
   public static Uri findDocument(DocumentFile dir, List<String> segments) {
+    if (dir == null) {
+      return null;
+    }
+
     for (DocumentFile file : dir.listFiles()) {
       int index = segments.indexOf(file.getName());
       if (index == -1) {
@@ -191,7 +195,7 @@ public class SAFUtil {
       return;
     }
 
-    if (isTreeUriSaved(context)) {
+    if (isTreeUriSaved()) {
       List<String> pathSegments =
           new ArrayList<>(Arrays.asList(audio.getFile().getAbsolutePath().split("/")));
       Uri sdcard = Uri.parse(PreferenceUtil.INSTANCE.getSafSdCardUri());
@@ -240,33 +244,34 @@ public class SAFUtil {
     }
   }
 
-  public static void delete(Context context, String path, Uri safUri) {
+  public static boolean delete(Context context, String path, Uri safUri) {
     if (isSAFRequired(path)) {
-      deleteSAF(context, path, safUri);
+      return deleteSAF(context, path, safUri);
     } else {
       try {
-        deleteFile(path);
+        return deleteFile(path);
       } catch (NullPointerException e) {
         Log.e("MusicUtils", "Failed to find file " + path);
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+    return false;
   }
 
-  public static void deleteFile(String path) {
-    new File(path).delete();
+  public static boolean deleteFile(String path) {
+    return new File(path).delete();
   }
 
-  public static void deleteSAF(Context context, String path, Uri safUri) {
+  public static boolean deleteSAF(Context context, String path, Uri safUri) {
     Uri uri = null;
 
     if (context == null) {
       Log.e(TAG, "deleteSAF: context == null");
-      return;
+      return false;
     }
 
-    if (isTreeUriSaved(context)) {
+    if (safUri == null && isTreeUriSaved()) {
       List<String> pathSegments = new ArrayList<>(Arrays.asList(path.split("/")));
       Uri sdcard = Uri.parse(PreferenceUtil.INSTANCE.getSafSdCardUri());
       uri = findDocument(DocumentFile.fromTreeUri(context, sdcard), pathSegments);
@@ -279,7 +284,7 @@ public class SAFUtil {
     if (uri == null) {
       Log.e(TAG, "deleteSAF: Can't get SAF URI");
       toast(context, context.getString(R.string.saf_error_uri));
-      return;
+      return false;
     }
 
     try {
@@ -290,7 +295,9 @@ public class SAFUtil {
       toast(
           context,
           String.format(context.getString(R.string.saf_delete_failed), e.getLocalizedMessage()));
+      return false;
     }
+    return true;
   }
 
   private static void toast(final Context context, final String message) {

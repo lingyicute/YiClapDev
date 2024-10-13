@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -27,7 +27,6 @@ import androidx.fragment.app.DialogFragment
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.EXTRA_SONG
 import code.name.monkey.retromusic.R
-import code.name.monkey.retromusic.activities.saf.SAFGuideActivity
 import code.name.monkey.retromusic.extensions.extraNotNull
 import code.name.monkey.retromusic.extensions.materialDialog
 import code.name.monkey.retromusic.fragments.LibraryViewModel
@@ -120,8 +119,8 @@ class DeleteSongsDialog : DialogFragment() {
                             deleteSongs(songs)
                         } else {
                             startActivityForResult(
-                                Intent(requireActivity(), SAFGuideActivity::class.java),
-                                SAFGuideActivity.REQUEST_CODE_SAF_GUIDE
+                                Intent(requireActivity(), code.name.monkey.retromusic.activities.saf.SAFGuideActivity::class.java),
+                                code.name.monkey.retromusic.activities.saf.SAFGuideActivity.REQUEST_CODE_SAF_GUIDE
                             )
                         }
                     }
@@ -132,7 +131,7 @@ class DeleteSongsDialog : DialogFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            SAFGuideActivity.REQUEST_CODE_SAF_GUIDE -> {
+            code.name.monkey.retromusic.activities.saf.SAFGuideActivity.REQUEST_CODE_SAF_GUIDE -> {
                 SAFUtil.openTreePicker(this)
             }
             SAFUtil.REQUEST_SAF_PICK_TREE,

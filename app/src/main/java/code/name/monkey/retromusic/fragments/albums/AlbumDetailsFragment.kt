@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.core.text.parseAsHtml
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -58,8 +57,6 @@ import code.name.monkey.retromusic.helper.SortOrder.AlbumSongSortOrder.Companion
 import code.name.monkey.retromusic.interfaces.IAlbumClickListener
 import code.name.monkey.retromusic.model.Album
 import code.name.monkey.retromusic.model.Artist
-import code.name.monkey.retromusic.network.Result
-import code.name.monkey.retromusic.network.model.LastFmAlbum
 import code.name.monkey.retromusic.repository.RealRepository
 import code.name.monkey.retromusic.util.*
 import com.bumptech.glide.Glide
@@ -155,14 +152,6 @@ class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_det
             )
         }
 
-        binding.fragmentAlbumContent.aboutAlbumText.setOnClickListener {
-            if (binding.fragmentAlbumContent.aboutAlbumText.maxLines == 4) {
-                binding.fragmentAlbumContent.aboutAlbumText.maxLines = Integer.MAX_VALUE
-            } else {
-                binding.fragmentAlbumContent.aboutAlbumText.maxLines = 4
-            }
-        }
-
         binding.appBarLayout?.statusBarForeground =
             MaterialShapeDrawable.createWithElevationOverlay(requireContext())
     }
@@ -226,23 +215,6 @@ class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_det
                 loadArtistImage(it)
             }
         }
-
-
-        detailsViewModel.getAlbumInfo(album).observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    logD("Loading")
-                }
-
-                is Result.Error -> {
-                    logE("Error")
-                }
-
-                is Result.Success -> {
-                    aboutAlbum(result.data)
-                }
-            }
-        }
     }
 
     private fun moreAlbums(albums: List<Album>) {
@@ -262,30 +234,6 @@ class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_det
         binding.fragmentAlbumContent.moreRecyclerView.adapter = albumAdapter
     }
 
-    private fun aboutAlbum(lastFmAlbum: LastFmAlbum) {
-        if (lastFmAlbum.album != null) {
-            if (lastFmAlbum.album.wiki != null) {
-                binding.fragmentAlbumContent.aboutAlbumText.show()
-                binding.fragmentAlbumContent.aboutAlbumTitle.show()
-                binding.fragmentAlbumContent.aboutAlbumTitle.text =
-                    String.format(getString(R.string.about_album_label), lastFmAlbum.album.name)
-                binding.fragmentAlbumContent.aboutAlbumText.text =
-                    lastFmAlbum.album.wiki.content.parseAsHtml()
-            }
-            if (lastFmAlbum.album.listeners.isNotEmpty()) {
-                binding.fragmentAlbumContent.listeners.show()
-                binding.fragmentAlbumContent.listenersLabel.show()
-                binding.fragmentAlbumContent.scrobbles.show()
-                binding.fragmentAlbumContent.scrobblesLabel.show()
-
-                binding.fragmentAlbumContent.listeners.text =
-                    RetroUtil.formatValue(lastFmAlbum.album.listeners.toFloat())
-                binding.fragmentAlbumContent.scrobbles.text =
-                    RetroUtil.formatValue(lastFmAlbum.album.playcount.toFloat())
-            }
-        }
-    }
-
     private fun loadArtistImage(artist: Artist) {
         detailsViewModel.getMoreAlbums(artist).observe(viewLifecycleOwner) {
             moreAlbums(it)
@@ -293,10 +241,7 @@ class AlbumDetailsFragment : AbsMainActivityFragment(R.layout.fragment_album_det
         Glide.with(requireContext())
             //.forceDownload(PreferenceUtil.isAllowedToDownloadMetadata())
             .load(
-                RetroGlideExtension.getArtistModel(
-                    artist,
-                    PreferenceUtil.isAllowedToDownloadMetadata(requireContext())
-                )
+                RetroGlideExtension.getArtistModel(artist)
             )
             .artistImageOptions(artist)
             .dontAnimate()

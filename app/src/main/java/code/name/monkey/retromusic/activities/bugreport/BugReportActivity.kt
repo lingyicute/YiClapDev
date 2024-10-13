@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -86,6 +86,6 @@ open class BugReportActivity : AbsThemeActivity() {
 
     companion object {
         private const val ISSUE_TRACKER_LINK =
-            "https://github.com/RetroMusicPlayer/RetroMusicPlayer/issues"
+            "https://github.com/lingyicute/YiClap/issues/new"
     }
 }

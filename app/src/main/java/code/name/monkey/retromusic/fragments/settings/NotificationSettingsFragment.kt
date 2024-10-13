@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -26,7 +26,7 @@ import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.util.PreferenceUtil
 
 /**
- * @author Hemanth S (h4h13).
+ * @author lingyicute
  */
 
 class NotificationSettingsFragment : AbsSettingsFragment(),

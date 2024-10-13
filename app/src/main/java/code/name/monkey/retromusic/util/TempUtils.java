@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -14,7 +14,7 @@
 
 package code.name.monkey.retromusic.util;
 
-/** @author Hemanth S (h4h13). */
+/** @author lingyicute */
 public class TempUtils {
 
   // Enums

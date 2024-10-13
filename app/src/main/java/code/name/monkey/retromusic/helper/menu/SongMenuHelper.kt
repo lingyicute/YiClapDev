@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -12,6 +12,7 @@
  * See the GNU General Public License for more details.
  *
  */
+
 package code.name.monkey.retromusic.helper.menu
 
 import android.content.Intent

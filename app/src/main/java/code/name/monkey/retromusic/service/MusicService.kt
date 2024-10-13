@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -46,6 +46,8 @@ import androidx.media.MediaBrowserServiceCompat
 import androidx.preference.PreferenceManager
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.*
+import code.name.monkey.retromusic.appwidgets.*
+import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.activities.LockScreenActivity
 import code.name.monkey.retromusic.appwidgets.*
 import code.name.monkey.retromusic.auto.AutoMediaIDHelper
@@ -1206,10 +1208,6 @@ class MusicService : MediaBrowserServiceCompat(),
 
     fun switchToLocalPlayback() {
         playbackManager.switchToLocalPlayback(this::restorePlaybackState)
-    }
-
-    fun switchToRemotePlayback(castPlayer: CastPlayer) {
-        playbackManager.switchToRemotePlayback(castPlayer, this::restorePlaybackState)
     }
 
     private fun restorePlaybackState(wasPlaying: Boolean, progress: Int) {

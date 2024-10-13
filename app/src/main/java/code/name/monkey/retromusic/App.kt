@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -22,14 +22,12 @@ import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.activities.ErrorActivity
 import code.name.monkey.retromusic.activities.MainActivity
 import code.name.monkey.retromusic.appshortcuts.DynamicShortcutManager
-import code.name.monkey.retromusic.billing.BillingManager
 import code.name.monkey.retromusic.helper.WallpaperAccentManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : Application() {
 
-    lateinit var billingManager: BillingManager
     private val wallpaperAccentManager = WallpaperAccentManager(this)
 
     override fun onCreate() {
@@ -52,8 +50,6 @@ class App : Application() {
         if (VersionUtils.hasNougatMR())
             DynamicShortcutManager(this).initDynamicShortcuts()
 
-        billingManager = BillingManager(this)
-
         // setting Error activity
         CaocConfig.Builder.create().errorActivity(ErrorActivity::class.java)
             .restartActivity(MainActivity::class.java).apply()
@@ -65,7 +61,6 @@ class App : Application() {
 
     override fun onTerminate() {
         super.onTerminate()
-        billingManager.release()
         wallpaperAccentManager.release()
     }
 
@@ -74,10 +69,6 @@ class App : Application() {
 
         fun getContext(): App {
             return instance!!
-        }
-
-        fun isProVersion(): Boolean {
-            return BuildConfig.DEBUG || instance?.billingManager!!.isProVersion
         }
     }
 }

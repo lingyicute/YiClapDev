@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -75,7 +75,7 @@ class AppShortcutLauncherActivity : Activity() {
     }
 
     companion object {
-        const val KEY_SHORTCUT_TYPE = "code.name.monkey.retromusic.appshortcuts.ShortcutType"
+        const val KEY_SHORTCUT_TYPE = "io.github.lingyicute.Music.appshortcuts.ShortcutType"
         const val SHORTCUT_TYPE_SHUFFLE_ALL = 0L
         const val SHORTCUT_TYPE_TOP_TRACKS = 1L
         const val SHORTCUT_TYPE_LAST_ADDED = 2L

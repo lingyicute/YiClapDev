@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -25,15 +25,7 @@ import androidx.core.os.LocaleListCompat
 import code.name.monkey.appthemehelper.common.ATHToolbarActivity
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
-import code.name.monkey.retromusic.extensions.exitFullscreen
-import code.name.monkey.retromusic.extensions.hideStatusBar
-import code.name.monkey.retromusic.extensions.installSplitCompat
-import code.name.monkey.retromusic.extensions.maybeSetScreenOn
-import code.name.monkey.retromusic.extensions.setEdgeToEdgeOrImmersive
-import code.name.monkey.retromusic.extensions.setImmersiveFullscreen
-import code.name.monkey.retromusic.extensions.setLightNavigationBarAuto
-import code.name.monkey.retromusic.extensions.setLightStatusBarAuto
-import code.name.monkey.retromusic.extensions.surfaceColor
+import code.name.monkey.retromusic.extensions.*
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.theme.getNightMode
 import code.name.monkey.retromusic.util.theme.getThemeResValue
@@ -110,6 +102,5 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
-        installSplitCompat()
     }
 }

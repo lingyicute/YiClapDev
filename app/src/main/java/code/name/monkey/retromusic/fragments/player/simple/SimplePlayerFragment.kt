@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -30,7 +30,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 
 /**
- * @author Hemanth S (h4h13).
+ * @author lingyicute
  */
 
 class SimplePlayerFragment : AbsPlayerFragment(R.layout.fragment_simple_player) {

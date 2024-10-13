@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -18,8 +18,12 @@ import android.animation.ValueAnimator
 import android.content.Context
 import androidx.core.animation.doOnEnd
 import androidx.lifecycle.*
-import code.name.monkey.retromusic.*
+import code.name.monkey.retromusic.RECENT_ALBUMS
+import code.name.monkey.retromusic.RECENT_ARTISTS
+import code.name.monkey.retromusic.TOP_ALBUMS
+import code.name.monkey.retromusic.TOP_ARTISTS
 import code.name.monkey.retromusic.db.*
+import code.name.monkey.retromusic.*
 import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.fragments.ReloadType.*
 import code.name.monkey.retromusic.fragments.search.Filter
@@ -275,10 +279,6 @@ class LibraryViewModel(
 
     fun artist(artistId: Long): LiveData<Artist> = liveData(IO) {
         emit(repository.artistById(artistId))
-    }
-
-    fun fetchContributors(): LiveData<List<Contributor>> = liveData(IO) {
-        emit(repository.contributor())
     }
 
     fun observableHistorySongs(): LiveData<List<Song>> {

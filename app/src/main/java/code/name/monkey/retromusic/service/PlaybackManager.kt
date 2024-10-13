@@ -150,14 +150,6 @@ class PlaybackManager(val context: Context) {
         switchToPlayback(createLocalPlayback(), onChange)
     }
 
-    fun switchToRemotePlayback(
-        castPlayer: CastPlayer,
-        onChange: (wasPlaying: Boolean, progress: Int) -> Unit,
-    ) {
-        playbackLocation = PlaybackLocation.REMOTE
-        switchToPlayback(castPlayer, onChange)
-    }
-
     private fun switchToPlayback(
         playback: Playback,
         onChange: (wasPlaying: Boolean, progress: Int) -> Unit,
@@ -186,5 +178,4 @@ class PlaybackManager(val context: Context) {
 
 enum class PlaybackLocation {
     LOCAL,
-    REMOTE
 }

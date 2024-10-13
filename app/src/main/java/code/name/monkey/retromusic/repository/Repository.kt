@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -22,13 +22,9 @@ import code.name.monkey.retromusic.db.*
 import code.name.monkey.retromusic.fragments.search.Filter
 import code.name.monkey.retromusic.model.*
 import code.name.monkey.retromusic.model.smartplaylist.NotPlayedPlaylist
-import code.name.monkey.retromusic.network.LastFMService
-import code.name.monkey.retromusic.network.Result
-import code.name.monkey.retromusic.network.Result.Error
-import code.name.monkey.retromusic.network.Result.Success
-import code.name.monkey.retromusic.network.model.LastFmAlbum
-import code.name.monkey.retromusic.network.model.LastFmArtist
-import code.name.monkey.retromusic.util.logE
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface Repository {
 
@@ -47,8 +43,6 @@ interface Repository {
     suspend fun search(query: String?, filter: Filter): MutableList<Any>
     suspend fun getPlaylistSongs(playlist: Playlist): List<Song>
     suspend fun getGenre(genreId: Long): List<Song>
-    suspend fun artistInfo(name: String, lang: String?, cache: String?): Result<LastFmArtist>
-    suspend fun albumInfo(artist: String, album: String): Result<LastFmAlbum>
     suspend fun artistById(artistId: Long): Artist
     suspend fun albumArtistByName(name: String): Artist
     suspend fun recentArtists(): List<Artist>
@@ -64,6 +58,7 @@ interface Repository {
     suspend fun genresHome(): Home
     suspend fun playlists(): Home
     suspend fun homeSections(): List<Home>
+
     suspend fun playlist(playlistId: Long): Playlist
     suspend fun fetchPlaylistWithSongs(): List<PlaylistWithSongs>
     suspend fun playlistSongs(playlistWithSongs: PlaylistWithSongs): List<Song>
@@ -89,7 +84,6 @@ interface Repository {
     suspend fun findSongExistInPlayCount(songId: Long): PlayCountEntity?
     suspend fun playCountSongs(): List<PlayCountEntity>
     suspend fun deleteSongs(songs: List<Song>)
-    suspend fun contributor(): List<Contributor>
     suspend fun searchArtists(query: String): List<Artist>
     suspend fun searchSongs(query: String): List<Song>
     suspend fun searchAlbums(query: String): List<Album>
@@ -101,7 +95,6 @@ interface Repository {
 
 class RealRepository(
     private val context: Context,
-    private val lastFMService: LastFMService,
     private val songRepository: SongRepository,
     private val albumRepository: AlbumRepository,
     private val artistRepository: ArtistRepository,
@@ -111,12 +104,9 @@ class RealRepository(
     private val searchRepository: RealSearchRepository,
     private val topPlayedRepository: TopPlayedRepository,
     private val roomRepository: RoomRepository,
-    private val localDataRepository: LocalDataRepository,
 ) : Repository {
 
     override suspend fun deleteSongs(songs: List<Song>) = roomRepository.deleteSongs(songs)
-
-    override suspend fun contributor(): List<Contributor> = localDataRepository.contributors()
 
     override suspend fun searchSongs(query: String): List<Song> = songRepository.songs(query)
 
@@ -170,32 +160,6 @@ class RealRepository(
         }
 
     override suspend fun getGenre(genreId: Long): List<Song> = genreRepository.songs(genreId)
-
-    override suspend fun artistInfo(
-        name: String,
-        lang: String?,
-        cache: String?,
-    ): Result<LastFmArtist> {
-        return try {
-            Success(lastFMService.artistInfo(name, lang, cache))
-        } catch (e: Exception) {
-            logE(e)
-            Error(e)
-        }
-    }
-
-    override suspend fun albumInfo(
-        artist: String,
-        album: String,
-    ): Result<LastFmAlbum> {
-        return try {
-            val lastFmAlbum = lastFMService.albumInfo(artist, album)
-            Success(lastFmAlbum)
-        } catch (e: Exception) {
-            logE(e)
-            Error(e)
-        }
-    }
 
     override suspend fun homeSections(): List<Home> {
         val homeSections = mutableListOf<Home>()
@@ -348,4 +312,5 @@ class RealRepository(
         }
         return Home(songs, FAVOURITES, R.string.favorites)
     }
+
 }

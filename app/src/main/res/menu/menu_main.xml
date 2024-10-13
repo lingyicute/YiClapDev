@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2019 Hemanth Savarala.
+  ~ Copyright (c) 2024 lingyicute.
   ~
   ~ Licensed under the GNU General Public License v3
   ~
@@ -91,9 +91,4 @@
         android:icon="@drawable/ic_settings"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_cast"
-        android:title="@string/action_cast"
-        app:actionProviderClass="androidx.mediarouter.app.MediaRouteActionProvider"
-        app:showAsAction="always" />
 </menu>

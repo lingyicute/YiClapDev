@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -17,8 +17,6 @@ package code.name.monkey.retromusic.fragments.artists
 import androidx.lifecycle.*
 import code.name.monkey.retromusic.interfaces.IMusicServiceEventListener
 import code.name.monkey.retromusic.model.Artist
-import code.name.monkey.retromusic.network.Result
-import code.name.monkey.retromusic.network.model.LastFmArtist
 import code.name.monkey.retromusic.repository.RealRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -43,16 +41,6 @@ class ArtistDetailsViewModel(
     }
 
     fun getArtist(): LiveData<Artist> = artistDetails
-
-    fun getArtistInfo(
-        name: String,
-        lang: String?,
-        cache: String?
-    ): LiveData<Result<LastFmArtist>> = liveData(IO) {
-        emit(Result.Loading)
-        val info = realRepository.artistInfo(name, lang, cache)
-        emit(info)
-    }
 
     override fun onMediaStoreChanged() {
         fetchArtist()

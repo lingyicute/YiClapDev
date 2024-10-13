@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -29,6 +29,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import code.name.monkey.retromusic.*
+import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.adapter.album.AlbumAdapter
 import code.name.monkey.retromusic.adapter.artist.ArtistAdapter
 import code.name.monkey.retromusic.adapter.song.ShuffleButtonSongAdapter

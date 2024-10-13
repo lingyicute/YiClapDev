@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -28,7 +28,6 @@ import code.name.monkey.appthemehelper.util.ATHUtil
 import code.name.monkey.appthemehelper.util.TintHelper
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.adapter.base.AbsMultiSelectAdapter
-import code.name.monkey.retromusic.adapter.base.MediaEntryViewHolder
 import code.name.monkey.retromusic.db.PlaylistEntity
 import code.name.monkey.retromusic.db.PlaylistWithSongs
 import code.name.monkey.retromusic.db.toSongs
@@ -149,7 +148,7 @@ class PlaylistAdapter(
         return songs
     }
 
-    inner class ViewHolder(itemView: View) : MediaEntryViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : code.name.monkey.retromusic.adapter.base.MediaEntryViewHolder(itemView) {
         init {
             menu?.setOnClickListener { view ->
                 val popupMenu = PopupMenu(activity, view)

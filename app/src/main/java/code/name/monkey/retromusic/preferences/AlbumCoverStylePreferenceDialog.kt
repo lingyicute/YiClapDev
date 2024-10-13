@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -27,12 +27,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import code.name.monkey.appthemehelper.common.prefs.supportv7.ATEDialogPreference
-import code.name.monkey.retromusic.App
+import code.name.monkey.retromusic.extensions.colorButtons
+import code.name.monkey.retromusic.extensions.colorControlNormal
+import code.name.monkey.retromusic.extensions.materialDialog
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.PreferenceDialogNowPlayingScreenBinding
 import code.name.monkey.retromusic.databinding.PreferenceNowPlayingScreenItemBinding
-import code.name.monkey.retromusic.extensions.*
-import code.name.monkey.retromusic.fragments.AlbumCoverStyle
 import code.name.monkey.retromusic.fragments.AlbumCoverStyle.*
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.ViewUtil
@@ -77,13 +77,7 @@ class AlbumCoverStylePreferenceDialog : DialogFragment(),
         return materialDialog(R.string.pref_title_album_cover_style)
             .setPositiveButton(R.string.set) { _, _ ->
                 val coverStyle = values()[viewPagerPosition]
-                if (isAlbumCoverStyle(coverStyle)) {
-                    val result = getString(coverStyle.titleRes) + " theme is Pro version feature."
-                    showToast(result)
-                    requireContext().goToProVersion()
-                } else {
-                    PreferenceUtil.albumCoverStyle = coverStyle
-                }
+                PreferenceUtil.albumCoverStyle = coverStyle
             }
             .setView(binding.root)
             .create()
@@ -111,12 +105,6 @@ class AlbumCoverStylePreferenceDialog : DialogFragment(),
 
             Glide.with(context).load(albumCoverStyle.drawableResId).into(binding.image)
             binding.title.setText(albumCoverStyle.titleRes)
-            if (isAlbumCoverStyle(albumCoverStyle)) {
-                binding.proText.show()
-                binding.proText.setText(R.string.pro)
-            } else {
-                binding.proText.hide()
-            }
             return binding.root
         }
 
@@ -148,8 +136,4 @@ class AlbumCoverStylePreferenceDialog : DialogFragment(),
             return AlbumCoverStylePreferenceDialog()
         }
     }
-}
-
-private fun isAlbumCoverStyle(style: AlbumCoverStyle): Boolean {
-    return (!App.isProVersion() && (style == Circle || style == Card || style == FullCard))
 }

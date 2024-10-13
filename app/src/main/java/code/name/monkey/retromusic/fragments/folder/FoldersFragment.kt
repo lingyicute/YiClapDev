@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView
 import code.name.monkey.appthemehelper.ThemeStore.Companion.accentColor
 import code.name.monkey.appthemehelper.common.ATHToolbarActivity
 import code.name.monkey.appthemehelper.util.ToolbarContentTintHelper
+import code.name.monkey.retromusic.extensions.*
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.adapter.SongFileAdapter
 import code.name.monkey.retromusic.adapter.Storage
@@ -407,7 +408,7 @@ class FoldersFragment : AbsMainActivityFragment(R.layout.fragment_folder),
 
     private fun checkIsEmpty() {
         if (_binding != null) {
-            binding.emptyEmoji.text = getEmojiByUnicode(0x1F631)
+            binding.emptyEmoji.text = getEmojiByUnicode(0x1FAE2)
             binding.empty.isVisible = adapter?.itemCount == 0
         }
     }

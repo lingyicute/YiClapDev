@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -97,7 +97,7 @@ class GenreDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playlist_
 
     private fun checkIsEmpty() {
         checkForPadding()
-        binding.emptyEmoji.text = getEmojiByUnicode(0x1F631)
+        binding.emptyEmoji.text = getEmojiByUnicode(0x1FAE2)
         binding.empty.isVisible = songAdapter.itemCount == 0
     }
 

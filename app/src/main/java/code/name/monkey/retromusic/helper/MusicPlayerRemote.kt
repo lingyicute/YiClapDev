@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -27,7 +27,6 @@ import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.repository.SongRepository
-import code.name.monkey.retromusic.service.CastPlayer
 import code.name.monkey.retromusic.service.MusicService
 import code.name.monkey.retromusic.util.getExternalStorageDirectory
 import code.name.monkey.retromusic.util.logE
@@ -218,7 +217,6 @@ object MusicPlayerRemote : KoinComponent {
             ) && musicService != null
         ) {
             musicService?.openQueue(queue, startPosition, startPlaying)
-            setShuffleMode(MusicService.SHUFFLE_MODE_NONE)
         }
     }
 
@@ -235,7 +233,7 @@ object MusicPlayerRemote : KoinComponent {
                 startPlaying
             ) && musicService != null
         ) {
-            musicService?.openQueue(queue, startPosition, startPlaying)
+            openQueue(queue, startPosition, startPlaying)
             setShuffleMode(MusicService.SHUFFLE_MODE_SHUFFLE)
         }
     }
@@ -454,14 +452,6 @@ object MusicPlayerRemote : KoinComponent {
     private fun getSongIdFromMediaProvider(uri: Uri): String {
         return DocumentsContract.getDocumentId(uri).split(":".toRegex())
             .dropLastWhile { it.isEmpty() }.toTypedArray()[1]
-    }
-
-    fun switchToRemotePlayback(castPlayer: CastPlayer) {
-        musicService?.switchToRemotePlayback(castPlayer)
-    }
-
-    fun switchToLocalPlayback() {
-        musicService?.switchToLocalPlayback()
     }
 
     class ServiceBinder internal constructor(private val mCallback: ServiceConnection?) :

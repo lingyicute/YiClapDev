@@ -5,53 +5,30 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'com.google.devtools.ksp'
 
 android {
-    compileSdk 33
+    compileSdk 34
     namespace "code.name.monkey.retromusic"
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
+        targetSdk 34
 
         vectorDrawables.useSupportLibrary = true
 
-        applicationId namespace
-        versionCode 10603
-        versionName '6.1.0'
+        applicationId 'io.github.lingyicute.Music'
+        versionCode 10714
+        versionName '7.2.1'
 
-        buildConfigField("String", "GOOGLE_PLAY_LICENSING_KEY", "\"${getProperty(getProperties('../public.properties'), 'GOOGLE_PLAY_LICENSE_KEY')}\"")
-    }
-    def signingProperties = getProperties('retro.properties')
-    def releaseSigning
-    if (signingProperties != null) {
-        releaseSigning = signingConfigs.create("release") {
-            storeFile file(getProperty(signingProperties, 'storeFile'))
-            keyAlias getProperty(signingProperties, 'keyAlias')
-            storePassword getProperty(signingProperties, 'storePassword')
-            keyPassword getProperty(signingProperties, 'keyPassword')
-        }
-    } else {
-        releaseSigning = signingConfigs.debug
+        multiDexEnabled true
     }
     buildTypes {
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig releaseSigning
         }
         debug {
-            signingConfig releaseSigning
             applicationIdSuffix '.debug'
             versionNameSuffix ' DEBUG'
-        }
-    }
-    flavorDimensions = ["version"]
-    productFlavors {
-        normal {
-            dimension "version"
-        }
-        fdroid {
-            dimension "version"
         }
     }
 
@@ -68,11 +45,11 @@ android {
         warning 'ImpliedQuantity', 'Instantiatable', 'MissingQuantity', 'MissingTranslation'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     dependenciesInfo {
         includeInApk = false
@@ -83,92 +60,73 @@ android {
     }
 }
 
-def getProperties(String fileName) {
-    Properties properties = new Properties()
-    def file = rootProject.file(fileName)
-    if (file.exists()) {
-        file.withInputStream { stream -> properties.load(stream) }
-    } else {
-        properties = null
-    }
-    return properties
-}
-
-static def getProperty(Properties properties, String name) {
-    return properties?.getProperty(name) ?: "$name missing"
-}
 
 dependencies {
     implementation project(':appthemehelper')
-    implementation libs.gridLayout
+    implementation "androidx.gridlayout:gridlayout:1.0.0"
 
-    implementation libs.androidx.appcompat
-    implementation libs.androidx.annotation
-    implementation libs.androidx.constraintLayout
-    implementation libs.androidx.recyclerview
-    implementation libs.androidx.preference.ktx
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.palette.ktx
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation "androidx.preference:preference-ktx:$preference_version"
+    implementation "androidx.core:core-ktx:$core_version"
+    implementation 'androidx.palette:palette-ktx:1.0.0'
 
-    implementation libs.androidx.mediarouter
-    //Cast Dependencies
-    normalImplementation libs.google.play.services.cast.framework
-    //WebServer by NanoHttpd
-    normalImplementation libs.nanohttpd
+    implementation 'androidx.mediarouter:mediarouter:1.3.1'
 
-    implementation libs.androidx.navigation.runtime.ktx
-    implementation libs.androidx.navigation.fragment.ktx
-    implementation libs.androidx.navigation.ui.ktx
+    implementation "androidx.navigation:navigation-runtime-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
-    implementation libs.androidx.room.runtime
-    implementation libs.androidx.room.ktx
-    ksp libs.androidx.room.compiler
+    def room_version = '2.5.1'
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
 
-    implementation libs.androidx.lifecycle.viewmodel.ktx
-    implementation libs.androidx.lifecycle.livedata.ktx
-    implementation libs.androidx.lifecycle.common.java8
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-    implementation libs.androidx.core.splashscreen
+    implementation "androidx.core:core-splashscreen:1.0.0"
 
-    normalImplementation libs.google.feature.delivery
-    normalImplementation libs.google.play.review
+    implementation "com.google.android.material:material:$mdc_version"
 
-    implementation libs.android.material
+    def retrofit_version = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-    implementation libs.retrofit
-    implementation libs.retrofit.converter.gson
-    implementation libs.okhttp3.logging.interceptor
+    def material_dialog_version = "3.3.0"
+    implementation "com.afollestad.material-dialogs:core:$material_dialog_version"
+    implementation "com.afollestad.material-dialogs:input:$material_dialog_version"
+    implementation "com.afollestad.material-dialogs:color:$material_dialog_version"
 
-    implementation libs.afollestad.material.dialogs.core
-    implementation libs.afollestad.material.dialogs.input
-    implementation libs.afollestad.material.dialogs.color
-    implementation libs.afollestad.material.cab
+    implementation 'com.afollestad:material-cab:2.0.1'
 
-    implementation libs.kotlinx.coroutines.android
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 
-    implementation libs.koin.core
-    implementation libs.koin.android
+    def koin_version = '3.4.0'
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
 
-    implementation libs.glide
-    ksp libs.glide.ksp
-    implementation libs.glide.okhttp3.integration
+    def glide_version = '4.15.1'
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    ksp "com.github.bumptech.glide:ksp:$glide_version"
 
-    implementation libs.advrecyclerview
+    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
 
-    implementation libs.fadingedgelayout
+    implementation 'com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0'
 
-    implementation libs.keyboardvisibilityevent
-    implementation libs.jetradarmobile.android.snowfall
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC3'
+    implementation 'com.github.jetradarmobile:android-snowfall:1.2.1'
 
-    implementation libs.chrisbanes.insetter
+    implementation "dev.chrisbanes.insetter:insetter:0.6.1"
 
-    implementation libs.org.eclipse.egit.github.core
-    implementation libs.jaudiotagger
-    normalImplementation libs.android.lab.library
-    implementation libs.slidableactivity
-    implementation libs.material.intro
-    implementation libs.dhaval2404.imagepicker
-    implementation libs.fastscroll.library
-    implementation libs.customactivityoncrash
-    implementation libs.tankery.circularSeekBar
+    implementation 'com.github.Adonai:jaudiotagger:2.3.15'
+    implementation 'com.r0adkll:slidableactivity:2.1.0'
+    implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+    implementation 'me.zhanghai.android.fastscroll:library:1.2.0'
+    implementation 'me.tankery.lib:circularSeekBar:1.4.2'
+    implementation 'cat.ereza:customactivityoncrash:2.4.0'
 }

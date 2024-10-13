@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -31,9 +31,7 @@ import java.io.InputStream;
 public class AudioFileCoverUtils {
 
   public static final String[] FALLBACKS = {
-    "cover.jpg", "album.jpg", "folder.jpg",
-    "cover.png", "album.png", "folder.png",
-    "cover.webp", "album.webp", "folder.webp"
+    "cover.jpg", "album.jpg", "folder.jpg", "cover.png", "album.png", "folder.png"
   };
 
   public static InputStream fallback(String path) throws FileNotFoundException {

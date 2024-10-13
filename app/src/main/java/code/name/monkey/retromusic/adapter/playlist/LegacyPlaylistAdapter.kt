@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -19,7 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import code.name.monkey.retromusic.adapter.base.MediaEntryViewHolder
 import code.name.monkey.retromusic.model.Playlist
 import code.name.monkey.retromusic.util.MusicUtil
 
@@ -36,7 +35,7 @@ class LegacyPlaylistAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : MediaEntryViewHolder(itemView)
+    class ViewHolder(itemView: View) : code.name.monkey.retromusic.adapter.base.MediaEntryViewHolder(itemView)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

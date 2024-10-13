@@ -1,20 +1,8 @@
-/*
- * Copyright (c) 2020 Hemanth Savarla.
- *
- * Licensed under the GNU General Public License v3
- *
- * This is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- */
 package code.name.monkey.retromusic.activities
 
 import android.Manifest.permission.BLUETOOTH_CONNECT
+import android.app.AlarmManager
+import androidx.core.content.getSystemService
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -27,11 +15,22 @@ import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
+import androidx.core.content.edit
+import androidx.preference.Preference
+import androidx.preference.TwoStatePreference
 import code.name.monkey.appthemehelper.util.VersionUtils
-import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.activities.base.AbsMusicServiceActivity
 import code.name.monkey.retromusic.databinding.ActivityPermissionBinding
 import code.name.monkey.retromusic.extensions.*
+import com.google.android.material.color.DynamicColors
+import code.name.monkey.retromusic.*
+import code.name.monkey.appthemehelper.ACCENT_COLORS
+import code.name.monkey.appthemehelper.ACCENT_COLORS_SUB
+import code.name.monkey.appthemehelper.ThemeStore
+import code.name.monkey.appthemehelper.common.prefs.supportv7.ATEColorPreference
+import code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+import code.name.monkey.appthemehelper.util.ColorUtil
+import code.name.monkey.retromusic.util.PreferenceUtil
 
 class PermissionActivity : AbsMusicServiceActivity() {
     private lateinit var binding: ActivityPermissionBinding
@@ -67,6 +66,11 @@ class PermissionActivity : AbsMusicServiceActivity() {
                     BLUETOOTH_PERMISSION_REQUEST
                 )
             }
+            binding.alarmPermission.show()
+            binding.alarmPermission.setButtonClick {
+                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                startActivity(intent)
+            }
         } else {
             binding.audioPermission.setNumber("2")
         }
@@ -74,6 +78,7 @@ class PermissionActivity : AbsMusicServiceActivity() {
         binding.finish.accentBackgroundColor()
         binding.finish.setOnClickListener {
             if (hasPermissions()) {
+                DynamicColors.applyToActivitiesIfAvailable(App.getContext())
                 startActivity(
                     Intent(this, MainActivity::class.java).addFlags(
                         Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -92,12 +97,10 @@ class PermissionActivity : AbsMusicServiceActivity() {
     }
 
     private fun setupTitle() {
-        val color = accentColor()
-        val hexColor = String.format("#%06X", 0xFFFFFF and color)
         val appName =
             getString(
                 R.string.message_welcome,
-                "<b>Retro <span  style='color:$hexColor';>Music</span></b>"
+                "<b>YiClap</b>"
             )
                 .parseAsHtml()
         binding.appNameText.text = appName
@@ -124,6 +127,11 @@ class PermissionActivity : AbsMusicServiceActivity() {
                 binding.bluetoothPermission.checkImage.imageTintList =
                     ColorStateList.valueOf(accentColor())
             }
+            if (hasAlarmPermission()) {
+                binding.alarmPermission.checkImage.isVisible = true
+                binding.alarmPermission.checkImage.imageTintList =
+                    ColorStateList.valueOf(accentColor())
+            }
         }
     }
 
@@ -142,5 +150,9 @@ class PermissionActivity : AbsMusicServiceActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun hasAudioPermission(): Boolean {
         return Settings.System.canWrite(this)
+    }
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun hasAlarmPermission(): Boolean {
+        return getSystemService<AlarmManager>()?.canScheduleExactAlarms() == true
     }
 }

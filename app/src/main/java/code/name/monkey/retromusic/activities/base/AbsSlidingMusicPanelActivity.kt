@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -28,10 +28,7 @@ import android.view.animation.PathInterpolator
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.core.animation.doOnEnd
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
+import androidx.core.view.*
 import androidx.fragment.app.commit
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.ADAPTIVE_COLOR_APP
@@ -53,25 +50,7 @@ import code.name.monkey.retromusic.TOGGLE_FULL_SCREEN
 import code.name.monkey.retromusic.TOGGLE_VOLUME
 import code.name.monkey.retromusic.activities.PermissionActivity
 import code.name.monkey.retromusic.databinding.SlidingMusicPanelLayoutBinding
-import code.name.monkey.retromusic.extensions.currentFragment
-import code.name.monkey.retromusic.extensions.darkAccentColor
-import code.name.monkey.retromusic.extensions.dip
-import code.name.monkey.retromusic.extensions.getBottomInsets
-import code.name.monkey.retromusic.extensions.hide
-import code.name.monkey.retromusic.extensions.isColorLight
-import code.name.monkey.retromusic.extensions.isLandscape
-import code.name.monkey.retromusic.extensions.keepScreenOn
-import code.name.monkey.retromusic.extensions.maybeSetScreenOn
-import code.name.monkey.retromusic.extensions.peekHeightAnimate
-import code.name.monkey.retromusic.extensions.setLightNavigationBar
-import code.name.monkey.retromusic.extensions.setLightNavigationBarAuto
-import code.name.monkey.retromusic.extensions.setLightStatusBar
-import code.name.monkey.retromusic.extensions.setLightStatusBarAuto
-import code.name.monkey.retromusic.extensions.setNavigationBarColorPreOreo
-import code.name.monkey.retromusic.extensions.setTaskDescriptionColor
-import code.name.monkey.retromusic.extensions.show
-import code.name.monkey.retromusic.extensions.surfaceColor
-import code.name.monkey.retromusic.extensions.whichFragment
+import code.name.monkey.retromusic.extensions.*
 import code.name.monkey.retromusic.fragments.LibraryViewModel
 import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
@@ -483,6 +462,9 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
         animate: Boolean = false,
         hideBottomSheet: Boolean = MusicPlayerRemote.playingQueue.isEmpty(),
     ) {
+        if (!ViewCompat.isLaidOut(navigationView)) {
+            return
+        }
         if (isInOneTabMode) {
             hideBottomSheet(
                 hide = hideBottomSheet,

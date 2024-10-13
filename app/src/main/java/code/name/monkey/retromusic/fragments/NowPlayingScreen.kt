@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -39,7 +39,7 @@ enum class NowPlayingScreen constructor(
     Full(R.string.full, R.drawable.np_full, 2, AlbumCoverStyle.Full),
     Gradient(R.string.gradient, R.drawable.np_gradient, 17, AlbumCoverStyle.Full),
     Material(R.string.material, R.drawable.np_material, 11, AlbumCoverStyle.Normal),
-    MD3(R.string.md3, R.drawable.np_normal, 18, AlbumCoverStyle.Normal),
+    MD3(R.string.md3, R.drawable.np_md, 18, AlbumCoverStyle.Normal),
     Normal(R.string.normal, R.drawable.np_normal, 0, AlbumCoverStyle.Normal),
     Peek(R.string.peek, R.drawable.np_peek, 14, AlbumCoverStyle.Normal),
     Plain(R.string.plain, R.drawable.np_plain, 3, AlbumCoverStyle.Normal),

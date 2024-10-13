@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -53,7 +53,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 /**
- * @author Hemanth S (h4h13).
+ * @author lingyicute
  */
 @SuppressLint("RestrictedApi")
 class PlayingNotificationClassic(

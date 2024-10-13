@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -18,8 +18,6 @@ import androidx.lifecycle.*
 import code.name.monkey.retromusic.interfaces.IMusicServiceEventListener
 import code.name.monkey.retromusic.model.Album
 import code.name.monkey.retromusic.model.Artist
-import code.name.monkey.retromusic.network.Result
-import code.name.monkey.retromusic.network.model.LastFmAlbum
 import code.name.monkey.retromusic.repository.RealRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -50,11 +48,6 @@ class AlbumDetailsViewModel(
     fun getAlbumArtist(artistName: String): LiveData<Artist> = liveData(IO) {
         val artist = repository.albumArtistByName(artistName)
         emit(artist)
-    }
-
-    fun getAlbumInfo(album: Album): LiveData<Result<LastFmAlbum>> = liveData(IO) {
-        emit(Result.Loading)
-        emit(repository.albumInfo(album.artistName, album.title))
     }
 
     fun getMoreAlbums(artist: Artist): LiveData<List<Album>> = liveData(IO) {

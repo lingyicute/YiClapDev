@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Hemanth Savarala.
+ * Copyright (c) 2024 lingyicute.
  *
  * Licensed under the GNU General Public License v3
  *
@@ -20,7 +20,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 /**
- * @author Hemanth S (h4h13).
+ * @author lingyicute
  */
 
 class NormalPageTransformer : ViewPager.PageTransformer {

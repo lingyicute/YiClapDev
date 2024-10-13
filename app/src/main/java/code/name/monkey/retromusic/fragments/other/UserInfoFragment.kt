@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Hemanth Savarla.
+ * Copyright (c) 2024 lingyicute
  *
  * Licensed under the GNU General Public License v3
  *
@@ -118,7 +118,7 @@ class UserInfoFragment : Fragment() {
 
     private fun showBannerImageOptions() {
         val list = requireContext().resources.getStringArray(R.array.image_settings_options)
-        MaterialAlertDialogBuilder(requireContext()).setTitle("Banner Image")
+        MaterialAlertDialogBuilder(requireContext()).setTitle("横幅")
             .setItems(list) { _, which ->
                 when (which) {
                     0 -> selectBannerImage()
@@ -137,7 +137,7 @@ class UserInfoFragment : Fragment() {
 
     private fun showUserImageOptions() {
         val list = requireContext().resources.getStringArray(R.array.image_settings_options)
-        MaterialAlertDialogBuilder(requireContext()).setTitle("Profile Image")
+        MaterialAlertDialogBuilder(requireContext()).setTitle("头像")
             .setItems(list) { _, which ->
                 when (which) {
                     0 -> pickNewPhoto()

@@ -635,7 +635,9 @@ class MusicService : MediaBrowserServiceCompat(),
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(
+        sharedPreferences: SharedPreferences, key: String?,
+    ) {
         when (key) {
             PLAYBACK_SPEED, PLAYBACK_PITCH -> {
                 updateMediaSessionPlaybackState()
@@ -1274,7 +1276,7 @@ class MusicService : MediaBrowserServiceCompat(),
 
     private fun registerHeadsetEvents() {
         if (!headsetReceiverRegistered && isHeadsetPlugged) {
-            registerReceiver(headsetReceiver, headsetReceiverIntentFilter)
+            ContextCompat.registerReceiver(this, headsetReceiver, headsetReceiverIntentFilter, ContextCompat.RECEIVER_EXPORTED)
             headsetReceiverRegistered = true
         }
     }

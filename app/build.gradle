@@ -5,12 +5,12 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'com.google.devtools.ksp'
 
 android {
-    compileSdk 34
+    compileSdk 35
     namespace "code.name.monkey.retromusic"
 
     defaultConfig {
         minSdk 21
-        targetSdk 34
+        targetSdk 35
 
         vectorDrawables.useSupportLibrary = true
 
@@ -46,11 +46,11 @@ android {
         warning 'ImpliedQuantity', 'Instantiatable', 'MissingQuantity', 'MissingTranslation', 'StringFormatInvalid'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
     dependenciesInfo {
         includeInApk = false

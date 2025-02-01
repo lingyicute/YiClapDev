@@ -649,6 +649,9 @@ object PreferenceUtil {
     val rememberLastTab: Boolean
         get() = sharedPreferences.getBoolean(REMEMBER_LAST_TAB, true)
 
+    val enableSearchPlaylist: Boolean
+        get() = sharedPreferences.getBoolean(ENABLE_SEARCH_PLAYLIST, true)
+
     var lastTab: Int
         get() = sharedPreferences
             .getInt(LAST_USED_TAB, 0)

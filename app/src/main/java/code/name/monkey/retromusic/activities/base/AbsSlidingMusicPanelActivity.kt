@@ -231,7 +231,7 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
         PreferenceUtil.unregisterOnSharedPreferenceChangedListener(this)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
             SWIPE_DOWN_DISMISS -> {
                 bottomSheetBehavior.isHideable = PreferenceUtil.swipeDownToDismiss

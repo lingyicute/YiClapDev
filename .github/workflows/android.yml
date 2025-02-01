@@ -23,7 +23,10 @@ jobs:
       - name: Chmod
         run: chmod +x gradlew
 
-      - name: Build
+      - name: Clean
+        run: ./gradlew clean
+
+      - name: Build 
         run: ./gradlew app:assemble
 
       - name: Upload APK

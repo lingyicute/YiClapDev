@@ -185,11 +185,14 @@ object PreferenceUtil {
             AlbumSongSortOrder.SONG_TRACK_LIST
         )
 
-    val artistAlbumSortOrder
+    var artistAlbumSortOrder
         get() = sharedPreferences.getStringOrDefault(
             ARTIST_ALBUM_SORT_ORDER,
-            ArtistAlbumSortOrder.ALBUM_A_Z
+            ArtistAlbumSortOrder.ALBUM_YEAR
         )
+        set(value) = sharedPreferences.edit {
+            putString(ARTIST_ALBUM_SORT_ORDER, value)
+        }
 
     var playlistSortOrder
         get() = sharedPreferences.getStringOrDefault(

@@ -140,7 +140,7 @@ abstract class LocalPlayback(val context: Context) : Playback, MediaPlayer.OnErr
                 player.setOnPreparedListener(null)
                 completion(true)
             }
-            player.prepareAsync()
+            player.prepare()
         } catch (e: Exception) {
             completion(false)
             e.printStackTrace()
